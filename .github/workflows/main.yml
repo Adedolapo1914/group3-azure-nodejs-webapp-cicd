@@ -1,0 +1,31 @@
+name: Deploy Node.js App to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout GitHub Repository code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install Project Dependencies and Build
+      run: |
+        npm install
+        # Add npm run build here if your project uses a build script
+
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'TechCrush-NodeApp-345'
+        publish-profile: ${{ secrets.AZURE_WEBPAPP_PUBLISH_PROFILE }}
